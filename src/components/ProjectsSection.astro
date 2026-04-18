@@ -1,0 +1,36 @@
+---
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  projects: any[];
+  title: string;
+}
+
+const { projects, title } = Astro.props;
+---
+
+<section id="projects" class="section-container relative min-h-screen py-24">
+  <div class="reveal-content mb-16 text-center" style="animation-delay: 100ms;">
+    <h2 class="text-4xl md:text-5xl font-heading font-black tracking-tight text-text mb-4">
+      {title || "Selected Work"}
+    </h2>
+    <div class="h-1 w-24 bg-primary mx-auto mt-6 rounded-full"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 reveal-content" style="animation-delay: 300ms;">
+    {projects && projects.length > 0 ? (
+      projects.map((project: any) => (
+        <ProjectCard 
+          title={project.title}
+          slug={project.slug}
+          techStack={project.techStack}
+          featuredImage={project.featuredImage}
+        />
+      ))
+    ) : (
+      <div class="col-span-full py-20 text-center glass rounded-2xl">
+        <p class="text-text-muted font-body">No projects found. Log into Payload CMS to create your first project!</p>
+      </div>
+    )}
+  </div>
+</section>

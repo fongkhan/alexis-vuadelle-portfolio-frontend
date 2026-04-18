@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  richTextHtml: string;
+}
+
+const { title, subtitle, richTextHtml } = Astro.props;
+---
+
+<section id="career" class="section-container relative min-h-[70vh] flex flex-col justify-center">
+  <div class="reveal-content mb-12 text-center" style="animation-delay: 100ms;">
+    <h2 class="text-4xl md:text-5xl font-heading font-black tracking-tight text-text mb-4">
+      {title || "Career & About"}
+    </h2>
+    <p class="text-lg text-text-muted font-body">
+      {subtitle || "A look into my journey."}
+    </p>
+    <div class="h-1 w-24 bg-primary mx-auto mt-6 rounded-full"></div>
+  </div>
+
+  <div class="glass rounded-3xl p-8 md:p-12 reveal-content max-w-4xl mx-auto" style="animation-delay: 300ms;">
+    <!-- Render the HTML generated from Payload's Lexical Rich Text -->
+    <div class="prose prose-slate prose-lg max-w-none 
+                prose-headings:font-heading prose-headings:font-bold prose-headings:text-text 
+                prose-p:font-body prose-p:text-text-muted prose-p:leading-relaxed
+                prose-a:text-primary prose-a:no-underline hover:prose-a:underline" 
+      set:html={richTextHtml}>
+    </div>
+  </div>
+</section>

@@ -3,18 +3,25 @@
 @theme {
   --color-background: #f8fafc;
   --color-surface: #ffffff;
-  --color-primary: #6366f1;
+  --color-primary: #8b5cf6; /* A more distinct purple accent */
+  --color-accent: #8b5cf6;  /* To match the template's accent variable usage */
   --color-secondary: #ec4899;
   --color-text: #0f172a;
   --color-text-muted: #64748b;
+  --color-gray: #64748b; /* Used in template mapped to muted text */
   --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 }
 
 @layer base {
+  *::selection {
+    @apply bg-primary/20 text-text;
+  }
   body {
-    @apply bg-background text-text font-sans antialiased min-h-screen selection:bg-primary/20;
+    @apply bg-background text-text font-body antialiased min-h-screen;
     background-image: 
-      radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 40%),
+      radial-gradient(circle at top right, rgba(139, 92, 246, 0.08), transparent 40%),
       radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.06), transparent 40%);
     background-attachment: fixed;
   }
@@ -28,6 +35,35 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
   }
   .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.15)] hover:border-primary/30;
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.15)] hover:border-primary/30;
   }
+  .section-container {
+    @apply py-12 md:py-20 px-6 md:px-0 max-w-6xl mx-auto;
+  }
+}
+
+/* Template Custom Animations */
+.reveal-content {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: revealIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes revealIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.balloon-float {
+  will-change: transform;
+  animation: floating-balloon 8s ease-in-out infinite;
+}
+
+@keyframes floating-balloon {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(3px, -8px) rotate(1deg); }
+  66% { transform: translate(-3px, -4px) rotate(-1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }

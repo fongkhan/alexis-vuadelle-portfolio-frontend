@@ -2,64 +2,90 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
-// ALternative Hero components you can try:
-// import Hero from '../components/HeroSplit.astro';
-// import Hero from '../components/HeroMinimal.astro';
+import CareerSection from '../components/CareerSection.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import ContactSection from '../components/ContactSection.astro';
 import Footer from '../components/Footer.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import { fetchProjects, fetchProfile, fetchHomePage } from '../lib/api';
+import { fetchProjects, fetchProfile, fetchHomePage, fetchAboutPage } from '../lib/api';
 
 const profile = await fetchProfile();
 const homePage = await fetchHomePage();
+const aboutPage = await fetchAboutPage();
 const projects = await fetchProjects();
-// Get top 3 latest projects for the home page
-const featuredProjects = projects.slice(0, 3);
+
+// Parse Lexical AST to HTML for Career block (Pulled from about.astro logic)
+let parsedAboutHtml = '<p class="text-text-muted italic">I am a passionate developer who builds dynamic performant projects.</p>';
+if (aboutPage?.content?.root?.children) {
+  parsedAboutHtml = aboutPage.content.root.children.map((node: any) => {
+    if (node.type === 'paragraph') {
+      const text = node.children?.map((c: any) => c.text).join('') || '';
+      return `<p class="mb-4 text-text-muted leading-relaxed">${text}</p>`;
+    }
+    if (node.type === 'heading') {
+      const text = node.children?.map((c: any) => c.text).join('') || '';
+      return `<h${node.tag} class="text-2xl font-heading font-bold mt-8 mb-4 text-text">${text}</h${node.tag}>`;
+    }
+    return '';
+  }).join('');
+}
 ---
 
 <Layout title={profile?.name ? `${profile.name} - Portfolio` : 'Portfolio'}>
   <Header />
   
-  <main class="relative z-10">
+  <main class="relative z-10 w-full overflow-hidden">
+    <!-- 1. Home Section -->
     <Hero 
       headline={homePage?.heroHeadline || "Building Digital Solutions"}
       bio={homePage?.heroDescription || "I'm a developer focusing on creating interactive, high-performance web applications."}
       profilePicture={homePage?.profilePicture?.url ? `http://localhost:3000${homePage.profilePicture.url}` : null}
     />
     
-    <section id="projects" class="py-24 max-w-6xl mx-auto px-6">
-      <div class="flex justify-between items-end mb-12">
-        <div>
-          <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">{homePage?.projectsTitle || "Selected Work"}</h2>
-          <p class="text-text-muted text-lg">{homePage?.projectsSubtitle || "A showcase of my recent side projects and development exploits."}</p>
-        </div>
-        <a href="/projects" class="hidden md:inline-flex items-center gap-2 text-primary hover:text-white transition-colors font-medium">
-          View all projects →
-        </a>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProjects.map((project: any) => (
-          <ProjectCard 
-            title={project.title}
-            slug={project.slug}
-            techStack={project.techStack}
-            featuredImage={project.featuredImage}
-          />
-        ))}
-        {featuredProjects.length === 0 && (
-          <div class="col-span-full py-20 text-center glass rounded-2xl">
-            <p class="text-text-muted">No projects found. Add some from the CMS!</p>
-          </div>
-        )}
-      </div>
-      
-      <div class="mt-8 text-center md:hidden">
-        <a href="/projects" class="inline-flex py-3 px-6 glass rounded-full items-center gap-2 font-medium hover:bg-white/10 transition-colors">
-          View all projects →
-        </a>
-      </div>
-    </section>
+    <!-- 2. Career / About Section -->
+    <CareerSection 
+      title={aboutPage?.title}
+      subtitle={aboutPage?.subtitle}
+      richTextHtml={parsedAboutHtml}
+    />
+
+    <!-- 3. Projects Section -->
+    <ProjectsSection 
+      title={homePage?.projectsTitle}
+      projects={projects}
+    />
+
+    <!-- 4. Contact Section -->
+    <ContactSection 
+      profile={profile}
+    />
   </main>
   
   <Footer />
+
+  <!-- Intersection Observer to trigger revealIn animations -->
+  <script>
+    function setupRevealAnimations() {
+      const elements = document.querySelectorAll('.reveal-content');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Apply animation if it has not already played
+            (entry.target as HTMLElement).style.animationPlayState = 'running';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1, 
+        rootMargin: '0px 0px -50px 0px' 
+      });
+
+      elements.forEach(el => {
+        // Pause by default so they only run when scrolled into view
+        (el as HTMLElement).style.animationPlayState = 'paused';
+        observer.observe(el);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', setupRevealAnimations);
+  </script>
 </Layout>

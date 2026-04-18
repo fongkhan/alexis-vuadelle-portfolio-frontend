@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 
 interface Props {
   headline: string;
@@ -9,44 +9,73 @@ interface Props {
 const { headline, bio, profilePicture } = Astro.props;
 ---
 
-<section id="home" class="min-h-screen flex flex-col items-center justify-center section-container text-center pt-24">
-  <div class="relative group mb-6 reveal-content" style="animation-delay: 100ms;">
-    {profilePicture ? (
-      <div class="balloon-float w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-primary overflow-hidden shadow-[0_0_50px_rgba(139,92,246,0.3)]">
-        <Image 
-          src={profilePicture}
-          alt="Profile"
-          inferSize={true}
-          loading="eager"
-          class="w-full h-full object-cover scale-110" 
-        />
-      </div>
-    ) : (
-      <div class="balloon-float w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-primary shadow-[0_0_50px_rgba(139,92,246,0.3)] bg-gradient-to-br from-primary to-secondary"></div>
-    )}
-    <div class="balloon-float absolute -z-10 top-0 left-0 w-full h-full bg-primary rounded-full blur-[80px] opacity-20"></div>
+<section
+  id="home"
+  class="min-h-screen flex flex-col items-center justify-center section-container text-center pt-24"
+>
+  <div
+    class="relative group mb-6 reveal-content"
+    style="animation-delay: 100ms;"
+  >
+    {
+      profilePicture ? (
+        <div class="balloon-float w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-primary overflow-hidden shadow-[0_0_50px_rgba(139,92,246,0.3)]">
+          <Image
+            src={profilePicture}
+            alt="Profile"
+            inferSize={true}
+            loading="eager"
+            class="w-full h-full object-cover scale-110"
+          />
+        </div>
+      ) : (
+        <div class="balloon-float w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-primary shadow-[0_0_50px_rgba(139,92,246,0.3)] bg-gradient-to-br from-primary to-secondary" />
+      )
+    }
+    <div
+      class="balloon-float absolute -z-10 top-0 left-0 w-full h-full bg-primary rounded-full blur-[80px] opacity-20"
+    >
+    </div>
   </div>
 
   <div class="reveal-content" style="animation-delay: 200ms;">
-    <p class="font-body font-medium text-text-muted leading-relaxed uppercase tracking-widest text-sm">
-      Software Developer
+    <p
+      class="font-body font-medium text-text-muted leading-relaxed uppercase tracking-widest text-sm"
+    >
+      Data Engineer
     </p>
   </div>
 
-  <div class="px-6 relative z-0 reveal-content mt-4" style="animation-delay: 300ms;">
-    <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-text">
+  <div
+    class="px-6 relative z-0 reveal-content mt-4"
+    style="animation-delay: 300ms;"
+  >
+    <h1
+      class="text-5xl md:text-7xl font-heading font-black tracking-tight text-text"
+    >
       {headline || "Building Digital Solutions"}
     </h1>
-    <div class="mt-6 font-body text-xl md:text-2xl text-text-muted leading-relaxed max-w-2xl mx-auto">
+    <div
+      class="mt-6 font-body text-xl md:text-2xl text-text-muted leading-relaxed max-w-2xl mx-auto"
+    >
       {bio}
     </div>
   </div>
 
-  <div class="mt-8 mb-4 reveal-content flex gap-4" style="animation-delay: 400ms;">
-    <a href="#projects" class="px-8 py-3 bg-primary text-white rounded-full font-body font-medium hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(139,92,246,0.4)]">
+  <div
+    class="mt-8 mb-4 reveal-content flex gap-4"
+    style="animation-delay: 400ms;"
+  >
+    <a
+      href="#projects"
+      class="px-8 py-3 bg-primary text-white rounded-full font-body font-medium hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(139,92,246,0.4)]"
+    >
       View My Work
     </a>
-    <a href="#career" class="px-8 py-3 glass rounded-full font-body font-medium text-text hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all">
+    <a
+      href="#career"
+      class="px-8 py-3 glass rounded-full font-body font-medium text-text hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all"
+    >
       Read More
     </a>
   </div>

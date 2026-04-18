@@ -3,9 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import { fetchProjects } from '../../lib/api';
+import { fetchProjects, fetchProjectsPage } from '../../lib/api';
 
 const projects = await fetchProjects();
+const projectsPage = await fetchProjectsPage();
 ---
 
 <Layout title="All Projects - Portfolio">
@@ -13,8 +14,8 @@ const projects = await fetchProjects();
   
   <main class="relative z-10 pt-32 pb-24 max-w-6xl mx-auto px-6 min-h-screen">
     <div class="mb-12">
-      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">All Projects</h1>
-      <p class="text-text-muted text-xl max-w-2xl">A comprehensive list of my side projects, experiments, and applications.</p>
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">{projectsPage?.title || "All Projects"}</h1>
+      <p class="text-text-muted text-xl max-w-2xl">{projectsPage?.subtitle || "A comprehensive list of my side projects, experiments, and applications."}</p>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

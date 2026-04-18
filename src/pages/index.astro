@@ -2,11 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+// ALternative Hero components you can try:
+// import Hero from '../components/HeroSplit.astro';
+// import Hero from '../components/HeroMinimal.astro';
 import Footer from '../components/Footer.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { fetchProjects, fetchProfile } from '../lib/api';
+import { fetchProjects, fetchProfile, fetchHomePage } from '../lib/api';
 
 const profile = await fetchProfile();
+const homePage = await fetchHomePage();
 const projects = await fetchProjects();
 // Get top 3 latest projects for the home page
 const featuredProjects = projects.slice(0, 3);
@@ -17,15 +21,16 @@ const featuredProjects = projects.slice(0, 3);
   
   <main class="relative z-10">
     <Hero 
-      headline={profile?.heroHeadline}
-      bio={profile?.bio}
+      headline={homePage?.heroHeadline || "Building Digital Solutions"}
+      bio={homePage?.heroDescription || "I'm a developer focusing on creating interactive, high-performance web applications."}
+      profilePicture={homePage?.profilePicture?.url ? `http://localhost:3000${homePage.profilePicture.url}` : null}
     />
     
     <section id="projects" class="py-24 max-w-6xl mx-auto px-6">
       <div class="flex justify-between items-end mb-12">
         <div>
-          <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Selected Work</h2>
-          <p class="text-text-muted text-lg">A showcase of my recent side projects and development exploits.</p>
+          <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">{homePage?.projectsTitle || "Selected Work"}</h2>
+          <p class="text-text-muted text-lg">{homePage?.projectsSubtitle || "A showcase of my recent side projects and development exploits."}</p>
         </div>
         <a href="/projects" class="hidden md:inline-flex items-center gap-2 text-primary hover:text-white transition-colors font-medium">
           View all projects →

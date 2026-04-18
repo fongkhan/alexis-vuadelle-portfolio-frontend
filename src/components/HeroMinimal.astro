@@ -1,0 +1,31 @@
+---
+interface Props {
+  headline: string;
+  bio: string;
+  profilePicture?: string | null;
+}
+const { headline, bio, profilePicture } = Astro.props;
+---
+
+<section class="min-h-[60vh] flex flex-col justify-center items-start text-left px-6 pt-24 max-w-4xl mx-auto">
+  {profilePicture && (
+    <div class="mb-6 w-20 h-20 rounded-full overflow-hidden border border-slate-200">
+      <img src={profilePicture} alt="Profile" class="w-full h-full object-cover" />
+    </div>
+  )}
+  
+  <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-6 text-text">
+    {headline || "Building Digital Solutions"}
+  </h1>
+  
+  <p class="text-lg md:text-2xl text-text-muted mb-8 font-light">
+    {bio || "I'm a developer focusing on creating interactive, high-performance web applications."}
+  </p>
+  
+  <div class="h-1 w-20 bg-primary mb-12"></div>
+  
+  <a href="#projects" class="text-primary font-bold hover:text-secondary transition-colors underline underline-offset-8 decoration-2 flex items-center gap-2">
+    Scroll to Projects 
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+  </a>
+</section>

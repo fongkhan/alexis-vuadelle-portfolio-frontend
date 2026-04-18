@@ -1,0 +1,42 @@
+---
+interface Props {
+  headline: string;
+  bio: string;
+  profilePicture?: string | null;
+}
+const { headline, bio, profilePicture } = Astro.props;
+---
+
+<section class="min-h-[70vh] flex flex-col md:flex-row justify-center items-center gap-12 px-6 pt-20 max-w-6xl mx-auto">
+  <div class="flex-1 text-left">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-in-up">
+      <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+      <span class="text-sm font-medium text-text-muted">Available for Work</span>
+    </div>
+    
+    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+      {headline || "Building Digital Solutions"}
+    </h1>
+    
+    <p class="text-lg md:text-xl text-text-muted max-w-xl mb-12 leading-relaxed">
+      {bio || "I'm a developer focusing on creating interactive, high-performance web applications and side projects that solve real problems."}
+    </p>
+    
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="#projects" class="px-8 py-4 rounded-full bg-primary hover:bg-primary/90 text-white font-semibold transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(99,102,241,0.4)] text-center">
+        View My Work
+      </a>
+      <a href="/about" class="px-8 py-4 rounded-full glass hover:bg-slate-100 text-text font-semibold transition-all hover:scale-105 active:scale-95 text-center">
+        Read My Story
+      </a>
+    </div>
+  </div>
+
+  {profilePicture && (
+    <div class="flex-1 w-full flex justify-center md:justify-end animate-fade-in-up">
+      <div class="relative w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden glass shadow-2xl rotate-3 hover:rotate-0 transition-all duration-500">
+        <img src={profilePicture} alt="Profile" class="w-full h-full object-cover" />
+      </div>
+    </div>
+  )}
+</section>

@@ -28,9 +28,14 @@ if (aboutPage?.content?.root?.children) {
     return '';
   }).join('');
 }
+
+// Extract SEO fields from Payload SEO plugin
+const seoTitle = homePage?.meta?.title || (profile?.name ? `${profile.name} - Portfolio` : 'Portfolio');
+const seoDescription = homePage?.meta?.description || homePage?.heroDescription;
+const seoImage = homePage?.meta?.image?.url ? `http://localhost:3000${homePage.meta.image.url}` : undefined;
 ---
 
-<Layout title={profile?.name ? `${profile.name} - Portfolio` : 'Portfolio'}>
+<Layout title={seoTitle} description={seoDescription} metaImage={seoImage}>
   <Header />
   
   <main class="relative z-10 w-full overflow-hidden">

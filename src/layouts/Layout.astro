@@ -1,26 +1,62 @@
 ---
+import { SEO } from 'astro-seo';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  metaImage?: string;
 }
 
-const { title, description = "A portfolio showcasing development and side projects." } = Astro.props;
+const { 
+  title, 
+  description = "A portfolio showcasing development and side projects.",
+  metaImage = "https://alexis-vuadelle.com/favicon.svg"
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Next 2 lines handle prefetching strategy defined in astro.config.mjs -->
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- GEO Targeting for France -->
+    <meta name="geo.region" content="FR" />
+    <meta name="geo.placename" content="France" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: metaImage,
+        },
+        optional: {
+          locale: "fr_FR",
+          localeAlternate: ["en_US"],
+        }
+      }}
+      twitter={{
+        card: "summary_large_image",
+        title: title,
+        description: description,
+        image: metaImage
+      }}
+      extend={{
+        link: [{ rel: "alternate", hreflang: "en", href: "https://alexis-vuadelle.com/en" }]
+      }}
+    />
   </head>
   <style is:global>
     html {

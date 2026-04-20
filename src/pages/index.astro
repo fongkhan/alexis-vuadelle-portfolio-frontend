@@ -39,17 +39,17 @@ const seoImage = homePage?.meta?.image?.url ? `http://localhost:3000${homePage.m
       profile={profile}
     />
     
-    <!-- 2. Career / About Section -->
+    <!-- 2. Projects Section -->
+    <ProjectsSection 
+      title={homePage?.projectsTitle}
+      projects={projects}
+    />
+    
+    <!-- 3. Career / About Section -->
     <CareerSection 
       title={aboutPage?.title}
       subtitle={aboutPage?.subtitle}
       richTextHtml={parsedAboutHtml}
-    />
-
-    <!-- 3. Projects Section -->
-    <ProjectsSection 
-      title={homePage?.projectsTitle}
-      projects={projects}
     />
 
     <!-- 4. Contact Section -->

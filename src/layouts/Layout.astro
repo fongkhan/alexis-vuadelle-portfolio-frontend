@@ -64,6 +64,13 @@ const {
     }
   </style>
   <body>
+    <!-- Global Animated Background Floating Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-20">
+      <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"></div>
+      <div class="absolute top-[20%] right-[-10%] w-[30rem] h-[30rem] bg-secondary/20 rounded-full mix-blend-multiply filter blur-[120px] opacity-70 animate-blob animation-delay-2000"></div>
+      <div class="absolute bottom-[-20%] left-[20%] w-[40rem] h-[40rem] bg-purple-300/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-70 animate-blob animation-delay-4000"></div>
+    </div>
+
     <!-- Background overlay for additional layered glass effect -->
     <div class="fixed inset-0 pointer-events-none -z-10 bg-[url('/noise.png')] opacity-5 mix-blend-overlay"></div>
     <slot />

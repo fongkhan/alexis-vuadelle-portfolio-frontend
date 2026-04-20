@@ -2,7 +2,7 @@ const API_URL = import.meta.env.PAYLOAD_API_URL || 'http://localhost:3000/api';
 
 export async function fetchProjects() {
   try {
-    const res = await fetch(`${API_URL}/projects?depth=1&sort=-createdAt`);
+    const res = await fetch(`${API_URL}/projects?depth=1&sort=order`);
     if (!res.ok) return [];
     const data = await res.json();
     return data.docs;

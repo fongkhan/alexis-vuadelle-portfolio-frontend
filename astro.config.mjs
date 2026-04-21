@@ -1,4 +1,5 @@
 // @ts-check
+console.log(">> [CONFIG] ASTRO CONFIG LOADED - SSR MODE (SERVER) IS ACTIVE");
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';

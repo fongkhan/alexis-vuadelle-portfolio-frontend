@@ -1,3 +1,8 @@
+// Ensure Wasm memory reservation is disabled for CloudLinux/o2switch compatibility
+if (!process.env.NODE_OPTIONS?.includes('--no-wasm-memory-reservation')) {
+  process.env.NODE_OPTIONS = `${process.env.NODE_OPTIONS || ''} --no-wasm-memory-reservation`.trim()
+}
+
 /**
  * Custom entry point for o2switch (Phusion Passenger).
  * For Astro apps set to output: 'server' and adapter: node({ mode: 'standalone' }),

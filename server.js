@@ -1,7 +1,10 @@
-// Ensure Wasm memory reservation is disabled for CloudLinux/o2switch compatibility
+// Environment safety checks for CloudLinux/o2switch
 if (!process.env.NODE_OPTIONS?.includes('--no-wasm-memory-reservation')) {
   process.env.NODE_OPTIONS = `${process.env.NODE_OPTIONS || ''} --no-wasm-memory-reservation`.trim()
 }
+process.env.ASTRO_NODE_AUTOSTART = 'disabled';
+process.env.SITE = 'https://alexis-vuadelle.com';
+process.env.NODE_ENV = 'production';
 
 /**
  * Custom entry point for o2switch (Phusion Passenger).

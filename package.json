@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" SITE=https://alexis-vuadelle.com astro build",
     "preview": "astro preview",
     "start": "cross-env NODE_OPTIONS=\"--no-deprecation --no-wasm-memory-reservation\" node server.js",
     "astro": "astro"

@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "rm -rf dist .astro node_modules/.vite && cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" SITE=https://alexis-vuadelle.com astro build",
+    "build": "rm -rf dist .astro node_modules/.vite && cross-env NODE_ENV=production NODE_OPTIONS=\"--max-old-space-size=4096\" SITE=https://alexis-vuadelle.com ASTRO_KEY=MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDE= astro build",
     "preview": "astro preview",
     "start": "cross-env NODE_OPTIONS=\"--no-deprecation --no-wasm-memory-reservation\" node server.js",
     "astro": "astro"
@@ -20,8 +20,5 @@
     "astro-seo": "1.1.0",
     "cross-env": "^7.0.3",
     "tailwindcss": "4.2.4"
-  },
-  "overrides": {
-    "vite": "6.1.1"
   }
 }

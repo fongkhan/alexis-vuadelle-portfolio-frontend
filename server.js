@@ -7,25 +7,26 @@ process.env.ASTRO_KEY = 'MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDE=';
 process.env.SITE = 'https://alexis-vuadelle.com';
 process.env.NODE_ENV = 'production';
 
-import http from 'node:http';
+import express from 'express';
 
 /**
  * Custom entry point for o2switch (Phusion Passenger).
  * For Astro apps set to output: 'server' and adapter: node({ mode: 'middleware' }),
  * the core server logic exports a handler function.
- * We create a basic HTTP server with this handler, which Passenger automatically intercepts.
  */
 import('./dist/server/entry.mjs').then(({ handler }) => {
-    const server = http.createServer((req, res) => {
-        handler(req, res, () => {
-            res.statusCode = 404;
-            res.end('Not found');
-        });
-    });
+    const app = express();
     
-    // Phusion Passenger hijacks the listen() call, so the port doesn't matter here.
-    server.listen();
-    console.log("Frontend SSR Server initialized for Passenger.");
+    // 1. Serve static files from the client directory (CSS, JS, Images)
+    app.use(express.static('./dist/client/'));
+    
+    // 2. Use the Astro SSR handler for everything else
+    app.use(handler);
+    
+    // Phusion Passenger hijacks the listen() call.
+    app.listen();
+    
+    console.log("Frontend SSR Server with Static Assets initialized for Passenger.");
 }).catch(err => {
     console.error('Frontend failed to start. Ensure you ran `npm run build` before starting the server.', err);
 });

@@ -13,7 +13,7 @@ export default defineConfig({
   site: 'https://alexis-vuadelle.com',
   output: 'server',
   adapter: node({
-    mode: 'standalone',
+    mode: 'middleware',
   }),
   image: {
     domains: ['localhost']

@@ -1,9 +1,9 @@
 // @ts-check
-console.log(">> [CONFIG] ASTRO CONFIG LOADED - SSR MODE (SERVER) IS ACTIVE");
+console.log(">> [CONFIG] ASTRO CONFIG LOADED - SSG MODE (STATIC) IS ACTIVE");
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+
 
 import { fileURLToPath, URL } from 'url';
 
@@ -11,10 +11,7 @@ import { fileURLToPath, URL } from 'url';
 export default defineConfig({
   root: fileURLToPath(new URL('.', import.meta.url)),
   site: 'https://alexis-vuadelle.com',
-  output: 'server',
-  adapter: node({
-    mode: 'middleware',
-  }),
+  output: 'static',
   image: {
     domains: ['localhost']
   },

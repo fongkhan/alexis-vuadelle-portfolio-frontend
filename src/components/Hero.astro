@@ -161,11 +161,11 @@ const { headline, bio, profilePicture, profile } = Astro.props;
     {
       profilePicture ? (
         <div class="relative w-52 h-52 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px] rounded-[3rem] overflow-hidden glass shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-8 border-white/50">
-          <Image
+          <img
             src={profilePicture}
             alt="Profile"
-            width={800}
-            height={800}
+            width="800"
+            height="800"
             loading="eager"
             class="w-full h-full object-cover scale-105"
           />

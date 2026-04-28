@@ -26,10 +26,10 @@ const { title, slug, techStack, featuredImage } = Astro.props;
     >
       {
         featuredImage?.url ? (
-          <Image
+          <img
             src={`${CMS_URL}${featuredImage.url}`}
             alt={featuredImage.alt || title}
-            inferSize={true}
+            loading="lazy"
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (

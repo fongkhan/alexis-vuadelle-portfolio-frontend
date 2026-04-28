@@ -77,10 +77,9 @@ const htmlContent = renderLexicalHtml(project.content);
     {
       project.featuredImage?.url && (
         <div class="w-full aspect-video rounded-3xl overflow-hidden glass mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200">
-          <Image
+          <img
             src={`${CMS_URL}${project.featuredImage.url}`}
             alt={project.featuredImage.alt || project.title}
-            inferSize={true}
             loading="eager"
             class="w-full h-full object-cover"
           />

@@ -33,7 +33,7 @@ const seoTitle =
   (profile?.name ? `${profile.name} - Portfolio` : "Portfolio");
 const seoDescription = homePage?.meta?.description || homePage?.heroDescription;
 const seoImage = homePage?.meta?.image?.url
-  ? `http://localhost:3000${homePage.meta.image.url}`
+  ? `https://alexis-vuadelle.com${homePage.meta.image.url}`
   : undefined;
 ---
 
@@ -47,7 +47,7 @@ const seoImage = homePage?.meta?.image?.url
       bio={homePage?.heroDescription ||
         "Je suis développeur spécialisé dans la création d'applications web interactives et performantes, ainsi que dans le développement de projets personnels qui résolvent des problèmes concrets."}
       profilePicture={homePage?.profilePicture?.url
-        ? `http://localhost:3000${homePage.profilePicture.url}`
+        ? `https://alexis-vuadelle.com${homePage.profilePicture.url}`
         : null}
       profile={profile}
     />

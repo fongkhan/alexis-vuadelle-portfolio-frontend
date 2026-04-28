@@ -1,10 +1,10 @@
 ---
-import { Image } from 'astro:assets';
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { fetchProjects, fetchProject } from '../../lib/api';
-import { renderLexicalHtml } from '../../lib/lexicalRender';
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { fetchProjects, fetchProject } from "../../lib/api";
+import { renderLexicalHtml } from "../../lib/lexicalRender";
 
 export async function getStaticPaths() {
   const projects = await fetchProjects();
@@ -17,7 +17,7 @@ const { slug } = Astro.params;
 const project = await fetchProject(slug as string);
 
 if (!project) {
-  return Astro.redirect('/404');
+  return Astro.redirect("/404");
 }
 
 const htmlContent = renderLexicalHtml(project.content);
@@ -25,54 +25,73 @@ const htmlContent = renderLexicalHtml(project.content);
 
 <Layout title={`${project.title} - Portfolio`}>
   <Header />
-  
+
   <main class="relative z-10 pt-32 pb-24 max-w-4xl mx-auto px-6 min-h-screen">
     <div class="mb-8">
-      <a href="/#projects" class="text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-2 mb-8 font-medium">
+      <a
+        href="/#projects"
+        class="text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-2 mb-8 font-medium"
+      >
         ← Back to Projects
       </a>
-      
-      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">{project.title}</h1>
-      
-      {project.techStack && project.techStack.length > 0 && (
-        <div class="flex flex-wrap gap-2 mb-8">
-          {project.techStack.map((tech: any) => (
-            <span class="px-3 py-1 rounded-full text-sm font-medium bg-slate-100 text-text border border-slate-200">
-              {tech.technology}
-            </span>
-          ))}
-        </div>
-      )}
-      
+
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+        {project.title}
+      </h1>
+
+      {
+        project.techStack && project.techStack.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-8">
+            {project.techStack.map((tech: any) => (
+              <span class="px-3 py-1 rounded-full text-sm font-medium bg-slate-100 text-text border border-slate-200">
+                {tech.technology}
+              </span>
+            ))}
+          </div>
+        )
+      }
+
       <div class="flex gap-4">
-        {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" class="px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-white font-medium transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(139,92,246,0.5)]">
-            Live Demo
-          </a>
-        )}
-          <a href={project.githubUrl} target="_blank" class="px-6 py-3 rounded-full glass hover:bg-slate-100 text-text font-medium transition-all hover:scale-105 active:scale-95 shadow-sm">
-            Source Code
-          </a>
+        {
+          project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              class="px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-white font-medium transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(139,92,246,0.5)]"
+            >
+              Live Demo
+            </a>
+          )
+        }
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          class="px-6 py-3 rounded-full glass hover:bg-slate-100 text-text font-medium transition-all hover:scale-105 active:scale-95 shadow-sm"
+        >
+          Source Code
+        </a>
         )}
       </div>
     </div>
-    
-    {project.featuredImage?.url && (
-      <div class="w-full aspect-video rounded-3xl overflow-hidden glass mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200">
-        <Image 
-          src={`http://localhost:3000${project.featuredImage.url}`} 
-          alt={project.featuredImage.alt || project.title}
-          inferSize={true}
-          loading="eager"
-          class="w-full h-full object-cover"
-        />
-      </div>
-    )}
-    
+
+    {
+      project.featuredImage?.url && (
+        <div class="w-full aspect-video rounded-3xl overflow-hidden glass mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200">
+          <Image
+            src={`https://alexis-vuadelle.com${project.featuredImage.url}`}
+            alt={project.featuredImage.alt || project.title}
+            inferSize={true}
+            loading="eager"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      )
+    }
+
     <article class="prose prose-slate max-w-none text-lg">
       <div set:html={htmlContent} />
     </article>
   </main>
-  
+
   <Footer />
 </Layout>

@@ -9,6 +9,9 @@ echo "=========================================="
 # Load Node.js environment (using Node 22 path based on your server setup)
 export PATH="$PATH:/opt/alt/alt-nodejs22/root/usr/bin/"
 
+# Allow self-signed SSL certs (safe: build runs on the same server as the CMS)
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+
 # 1. Navigate to the frontend repository
 cd /home/fongkhan/repositories/alexis-vuadelle-portfolio-frontend || exit 1
 echo "[1/4] Navigated to repository"

@@ -1,14 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import CareerSection from '../components/CareerSection.astro';
-import ProjectsSection from '../components/ProjectsSection.astro';
-import ContactSection from '../components/ContactSection.astro';
-import Footer from '../components/Footer.astro';
-import { fetchProjects, fetchProfile, fetchHomePage, fetchAboutPage } from '../lib/api';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import CareerSection from "../components/CareerSection.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
+import ContactSection from "../components/ContactSection.astro";
+import Footer from "../components/Footer.astro";
+import {
+  fetchProjects,
+  fetchProfile,
+  fetchHomePage,
+  fetchAboutPage,
+} from "../lib/api";
 
-import { renderLexicalHtml } from '../lib/lexicalRender';
+import { renderLexicalHtml } from "../lib/lexicalRender";
 
 const profile = await fetchProfile();
 const homePage = await fetchHomePage();
@@ -18,72 +23,79 @@ const projects = await fetchProjects();
 // Parse Lexical AST to HTML using the recursive helper
 let parsedAboutHtml = renderLexicalHtml(aboutPage?.content);
 if (!parsedAboutHtml) {
-  parsedAboutHtml = '<p class="text-text-muted italic">I am a passionate developer who builds dynamic performant projects.</p>';
+  parsedAboutHtml =
+    '<p class="text-text-muted italic">I am a passionate developer who builds dynamic performant projects.</p>';
 }
 
 // Extract SEO fields from Payload SEO plugin
-const seoTitle = homePage?.meta?.title || (profile?.name ? `${profile.name} - Portfolio` : 'Portfolio');
+const seoTitle =
+  homePage?.meta?.title ||
+  (profile?.name ? `${profile.name} - Portfolio` : "Portfolio");
 const seoDescription = homePage?.meta?.description || homePage?.heroDescription;
-const seoImage = homePage?.meta?.image?.url ? `http://localhost:3000${homePage.meta.image.url}` : undefined;
+const seoImage = homePage?.meta?.image?.url
+  ? `http://localhost:3000${homePage.meta.image.url}`
+  : undefined;
 ---
 
 <Layout title={seoTitle} description={seoDescription} metaImage={seoImage}>
   <Header />
-  
+
   <main class="relative z-10 w-full overflow-hidden">
     <!-- 1. Home Section -->
-    <Hero 
-      headline={homePage?.heroHeadline || "Building Digital Solutions"}
-      bio={homePage?.heroDescription || "I'm a developer focusing on creating interactive, high-performance web applications."}
-      profilePicture={homePage?.profilePicture?.url ? `http://localhost:3000${homePage.profilePicture.url}` : null}
+    <Hero
+      headline={homePage?.heroHeadline || "Créons des projets ensemble"}
+      bio={homePage?.heroDescription ||
+        "Je suis développeur spécialisé dans la création d'applications web interactives et performantes, ainsi que dans le développement de projets personnels qui résolvent des problèmes concrets."}
+      profilePicture={homePage?.profilePicture?.url
+        ? `http://localhost:3000${homePage.profilePicture.url}`
+        : null}
       profile={profile}
     />
-    
+
     <!-- 2. Projects Section -->
-    <ProjectsSection 
-      title={homePage?.projectsTitle}
-      projects={projects}
-    />
-    
+    <ProjectsSection title={homePage?.projectsTitle} projects={projects} />
+
     <!-- 3. Career / About Section -->
-    <CareerSection 
+    <CareerSection
       title={aboutPage?.title}
       subtitle={aboutPage?.subtitle}
       richTextHtml={parsedAboutHtml}
     />
 
     <!-- 4. Contact Section -->
-    <ContactSection 
-      profile={profile}
-    />
+    <ContactSection profile={profile} />
   </main>
-  
+
   <Footer />
 
   <!-- Intersection Observer to trigger revealIn animations -->
   <script>
     function setupRevealAnimations() {
-      const elements = document.querySelectorAll('.reveal-content');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Apply animation if it has not already played
-            (entry.target as HTMLElement).style.animationPlayState = 'running';
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1, 
-        rootMargin: '0px 0px -50px 0px' 
-      });
+      const elements = document.querySelectorAll(".reveal-content");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Apply animation if it has not already played
+              (entry.target as HTMLElement).style.animationPlayState =
+                "running";
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        },
+      );
 
-      elements.forEach(el => {
+      elements.forEach((el) => {
         // Pause by default so they only run when scrolled into view
-        (el as HTMLElement).style.animationPlayState = 'paused';
+        (el as HTMLElement).style.animationPlayState = "paused";
         observer.observe(el);
       });
     }
 
-    document.addEventListener('DOMContentLoaded', setupRevealAnimations);
+    document.addEventListener("DOMContentLoaded", setupRevealAnimations);
   </script>
 </Layout>

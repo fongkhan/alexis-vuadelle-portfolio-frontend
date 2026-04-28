@@ -13,7 +13,7 @@ export default defineConfig({
   site: 'https://alexis-vuadelle.com',
   output: 'static',
   image: {
-    domains: ['alexis-vuadelle.com']
+    domains: ['alexis-vuadelle.com', 'cms.alexis-vuadelle.com']
   },
   prefetch: {
     prefetchAll: true,

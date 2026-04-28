@@ -8,7 +8,6 @@ echo "=========================================="
 
 # Load Node.js environment (using Node 22 path based on your server setup)
 export PATH="$PATH:/opt/alt/alt-nodejs22/root/usr/bin/"
-export NODE_TLS_REJECT_UNAUTHORIZED=0
 
 # 1. Navigate to the frontend repository
 cd /home/fongkhan/repositories/alexis-vuadelle-portfolio-frontend || exit 1

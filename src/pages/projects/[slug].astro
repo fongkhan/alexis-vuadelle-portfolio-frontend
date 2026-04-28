@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { fetchProjects, fetchProject } from "../../lib/api";
+import { fetchProjects, fetchProject, CMS_URL } from "../../lib/api";
 import { renderLexicalHtml } from "../../lib/lexicalRender";
 
 export async function getStaticPaths() {
@@ -78,7 +78,7 @@ const htmlContent = renderLexicalHtml(project.content);
       project.featuredImage?.url && (
         <div class="w-full aspect-video rounded-3xl overflow-hidden glass mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200">
           <Image
-            src={`https://alexis-vuadelle.com${project.featuredImage.url}`}
+            src={`${CMS_URL}${project.featuredImage.url}`}
             alt={project.featuredImage.alt || project.title}
             inferSize={true}
             loading="eager"

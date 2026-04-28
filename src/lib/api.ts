@@ -1,5 +1,5 @@
 const API_URL = import.meta.env.PAYLOAD_API_URL || 'http://localhost:3000/api';
-export const CMS_URL = import.meta.env.PAYLOAD_CMS_URL || 'http://localhost:3000';
+export const CMS_URL = API_URL.replace(/\/api$/, '');
 
 export async function fetchProjects() {
   try {

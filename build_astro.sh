@@ -6,11 +6,11 @@ echo "=========================================="
 echo "Starting Astro Rebuild at $(date)"
 echo "=========================================="
 
-# Load Node.js environment
-source /home/fongkhan/.bashrc
+# Load Node.js environment (using Node 22 path based on your server setup)
+export PATH="$PATH:/opt/alt/alt-nodejs22/root/usr/bin/"
 
 # 1. Navigate to the frontend repository
-cd /home/fongkhan/repositories/Alexis-vuadelle-portfolio-frontend || exit 1
+cd /home/fongkhan/repositories/alexis-vuadelle-portfolio-frontend || exit 1
 echo "[1/4] Navigated to repository"
 
 # 2. Pull latest changes (optional, uncomment if Payload modifies files that need committing)

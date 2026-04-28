@@ -8,7 +8,7 @@ Voici les instructions pour déployer cette nouvelle architecture "Static Site G
 2. Déplacez le script de compilation (`build_astro.sh`) à la racine de votre compte (pour éviter qu'il soit écrasé ou supprimé par erreur) et rendez-le exécutable :
 
 ```bash
-cp /home/fongkhan/repositories/Alexis-vuadelle-portfolio-frontend/build_astro.sh /home/fongkhan/build_astro.sh
+cp /home/fongkhan/repositories/alexis-vuadelle-portfolio-frontend/build_astro.sh /home/fongkhan/build_astro.sh
 chmod +x /home/fongkhan/build_astro.sh
 ```
 

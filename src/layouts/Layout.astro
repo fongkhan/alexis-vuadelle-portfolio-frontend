@@ -29,9 +29,17 @@ const {
     <meta name="geo.region" content="FR" />
     <meta name="geo.placename" content="France" />
     
+    <!-- Preconnect to font + CMS origins for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cms.alexis-vuadelle.com" crossorigin>
+
+    <!-- Load Google Fonts WITHOUT blocking rendering (swap from print to all on load) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
     
     <SEO
       title={title}
@@ -71,8 +79,6 @@ const {
       <div class="absolute bottom-[-20%] left-[20%] w-[40rem] h-[40rem] bg-purple-300/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-70 animate-blob animation-delay-4000"></div>
     </div>
 
-    <!-- Background overlay for additional layered glass effect -->
-    <div class="fixed inset-0 pointer-events-none -z-10 bg-[url('/noise.png')] opacity-5 mix-blend-overlay"></div>
     <slot />
   </body>
 </html>

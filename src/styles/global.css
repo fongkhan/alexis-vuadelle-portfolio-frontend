@@ -3,8 +3,8 @@
 @theme {
   --color-background: #f8fafc;
   --color-surface: #ffffff;
-  --color-primary: #8b5cf6; /* A more distinct purple accent */
-  --color-accent: #8b5cf6;  /* To match the template's accent variable usage */
+  --color-primary: #7c3aed; /* Darker purple for WCAG AA contrast with white text */
+  --color-accent: #7c3aed;  /* To match the template's accent variable usage */
   --color-secondary: #ec4899;
   --color-text: #0f172a;
   --color-text-muted: #64748b;

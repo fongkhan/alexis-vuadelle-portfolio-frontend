@@ -164,9 +164,10 @@ const { headline, bio, profilePicture, profile } = Astro.props;
           <img
             src={profilePicture}
             alt="Profile"
-            width="800"
-            height="800"
+            width="450"
+            height="450"
             loading="eager"
+            fetchpriority="high"
             class="w-full h-full object-cover scale-105"
           />
         </div>

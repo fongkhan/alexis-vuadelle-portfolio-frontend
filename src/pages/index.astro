@@ -48,7 +48,7 @@ const seoImage = homePage?.meta?.image?.url
       bio={homePage?.heroDescription ||
         "Je suis développeur spécialisé dans la création d'applications web interactives et performantes, ainsi que dans le développement de projets personnels qui résolvent des problèmes concrets."}
       profilePicture={homePage?.profilePicture?.url
-        ? `${CMS_URL}${homePage.profilePicture.url}`
+        ? `${CMS_URL}${homePage.profilePicture.sizes?.hero?.url || homePage.profilePicture.url}`
         : null}
       profile={profile}
     />

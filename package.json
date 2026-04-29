@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.2",
-    "@fontsource/inter": "^5.2.8",
-    "@fontsource/space-grotesk": "^5.2.10",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/space-grotesk": "^5.2.10",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "6.1.8",
     "astro-seo": "1.1.0",

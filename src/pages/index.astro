@@ -38,7 +38,15 @@ const seoImage = homePage?.meta?.image?.url
   : undefined;
 ---
 
-<Layout title={seoTitle} description={seoDescription} metaImage={seoImage}>
+<Layout 
+  title={seoTitle} 
+  description={seoDescription} 
+  metaImage={seoImage}
+  backgroundImage={homePage?.siteBackgroundImage?.url ? `${CMS_URL}${homePage.siteBackgroundImage.sizes?.hero?.url || homePage.siteBackgroundImage.url}` : null}
+  enableParallax={homePage?.siteEnableParallax || false}
+  parallaxRate={homePage?.siteParallaxRate ?? 20}
+  overlayOpacity={homePage?.siteBackgroundOverlayOpacity ?? 80}
+>
   <Header />
 
   <main class="relative z-10 w-full overflow-hidden">

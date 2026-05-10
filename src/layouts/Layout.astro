@@ -6,13 +6,24 @@ interface Props {
   title: string;
   description?: string;
   metaImage?: string;
+  backgroundImage?: string | null;
+  enableParallax?: boolean;
+  parallaxRate?: number;
+  overlayOpacity?: number;
 }
 
 const { 
   title, 
   description = "A portfolio showcasing development and side projects.",
-  metaImage = "https://alexis-vuadelle.com/favicon.svg"
+  metaImage = "https://alexis-vuadelle.com/favicon.svg",
+  backgroundImage,
+  enableParallax = false,
+  parallaxRate = 20,
+  overlayOpacity = 80,
 } = Astro.props;
+
+const hasBackground = !!backgroundImage;
+const overlayPercent = Math.min(Math.max(overlayOpacity, 0), 100) / 100;
 ---
 
 <!doctype html>
@@ -64,13 +75,77 @@ const {
     }
   </style>
   <body>
-    <!-- Global Animated Background Floating Blobs -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-20">
-      <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"></div>
-      <div class="absolute top-[20%] right-[-10%] w-[30rem] h-[30rem] bg-secondary/20 rounded-full mix-blend-multiply filter blur-[120px] opacity-70 animate-blob animation-delay-2000"></div>
-      <div class="absolute bottom-[-20%] left-[20%] w-[40rem] h-[40rem] bg-purple-300/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-70 animate-blob animation-delay-4000"></div>
-    </div>
+    <!-- Global Background -->
+    {hasBackground ? (
+      <div class="fixed inset-0 overflow-hidden pointer-events-none -z-20">
+        <div 
+          id="global-bg-layer"
+          class="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
+          style={`background-image: url('${backgroundImage}');`}
+          data-parallax={enableParallax ? String(parallaxRate) : undefined}
+        />
+        <!-- White overlay for readability -->
+        <div 
+          class="absolute inset-0"
+          style={`background-color: rgba(255, 255, 255, ${overlayPercent});`}
+        />
+      </div>
+    ) : (
+      <!-- Fallback Global Animated Background Floating Blobs -->
+      <div class="fixed inset-0 overflow-hidden pointer-events-none -z-20">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"></div>
+        <div class="absolute top-[20%] right-[-10%] w-[30rem] h-[30rem] bg-secondary/20 rounded-full mix-blend-multiply filter blur-[120px] opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-20%] left-[20%] w-[40rem] h-[40rem] bg-purple-300/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
+    )}
 
     <slot />
+
+    {hasBackground && enableParallax && (
+      <script>
+        function setupGlobalParallax() {
+          const bgLayer = document.getElementById('global-bg-layer');
+          if (!bgLayer) return;
+          
+          const rateAttr = bgLayer.getAttribute('data-parallax');
+          if (!rateAttr) return;
+          
+          const rate = parseFloat(rateAttr) / 100;
+          const scale = 1 + (rate * 0.5);
+          
+          let ticking = false;
+          
+          function onScroll() {
+            if (!ticking) {
+              window.requestAnimationFrame(() => {
+                const windowHeight = window.innerHeight;
+                // Maximum possible translation without showing edges
+                const maxTranslate = windowHeight * ((scale - 1) / 2);
+                
+                // Calculate scroll progress from 0 (top of page) to 1 (bottom of page)
+                const scrollY = window.scrollY || window.pageYOffset;
+                const maxScroll = Math.max(1, document.body.scrollHeight - windowHeight);
+                let progress = scrollY / maxScroll;
+                progress = Math.max(0, Math.min(1, progress));
+                
+                // Map progress (0 to 1) to translateY (+maxTranslate to -maxTranslate)
+                // This means when at the top, the image is pushed down. As you scroll, it moves up.
+                const translateY = maxTranslate - (progress * maxTranslate * 2);
+                
+                bgLayer.style.transform = `translateY(${translateY}px) scale(${scale})`;
+                ticking = false;
+              });
+              ticking = true;
+            }
+          }
+
+          onScroll();
+          window.addEventListener('scroll', onScroll, { passive: true });
+        }
+
+        document.addEventListener("DOMContentLoaded", setupGlobalParallax);
+        document.addEventListener("astro:page-load", setupGlobalParallax);
+      </script>
+    )}
   </body>
 </html>

@@ -81,7 +81,7 @@ const htmlContent = renderLexicalHtml(project.content);
             src={`${CMS_URL}${project.featuredImage.url}`}
             alt={project.featuredImage.alt || project.title}
             loading="eager"
-            class="w-full h-full object-cover"
+            class={`w-full h-full ${project.imageDisplayMode === 'contain' ? 'object-contain bg-surface/50 p-8' : 'object-cover'}`}
           />
         </div>
       )

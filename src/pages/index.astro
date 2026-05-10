@@ -61,6 +61,11 @@ const seoImage = homePage?.meta?.image?.url
       title={aboutPage?.title}
       subtitle={aboutPage?.subtitle}
       richTextHtml={parsedAboutHtml}
+      backgroundImage={aboutPage?.backgroundImage?.url
+        ? `${CMS_URL}${aboutPage.backgroundImage.sizes?.hero?.url || aboutPage.backgroundImage.url}`
+        : null}
+      enableParallax={aboutPage?.enableParallax || false}
+      overlayOpacity={aboutPage?.backgroundOverlayOpacity ?? 60}
     />
 
     <!-- 4. Contact Section -->

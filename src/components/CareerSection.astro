@@ -3,38 +3,101 @@ interface Props {
   title: string;
   subtitle: string;
   richTextHtml: string;
+  backgroundImage?: string | null;
+  enableParallax?: boolean;
+  overlayOpacity?: number;
 }
 
-const { title, subtitle, richTextHtml } = Astro.props;
+const {
+  title,
+  subtitle,
+  richTextHtml,
+  backgroundImage,
+  enableParallax = false,
+  overlayOpacity = 60,
+} = Astro.props;
+
+const hasBackground = !!backgroundImage;
+const overlayPercent = Math.min(Math.max(overlayOpacity, 0), 100) / 100;
 ---
 
 <section
   id="career"
-  class="section-container relative py-24 flex flex-col justify-center scroll-mt-32"
+  class:list={[
+    "section-container relative py-24 flex flex-col justify-center scroll-mt-32",
+    { "overflow-hidden": hasBackground },
+  ]}
 >
+  {/* Background image with rounded corners and blurred/faded edges */}
+  {
+    hasBackground && (
+      <div class="absolute inset-0 -z-10 flex items-center justify-center" aria-hidden="true">
+        <div class="career-bg-wrapper relative w-full h-full mx-4 md:mx-12 lg:mx-20 my-8 rounded-3xl overflow-hidden">
+          <div
+            class:list={[
+              "absolute inset-0 bg-cover bg-center bg-no-repeat",
+              { "bg-fixed": enableParallax },
+            ]}
+            style={`background-image: url('${backgroundImage}');`}
+          />
+          {/* White overlay for text readability */}
+          <div
+            class="absolute inset-0"
+            style={`background-color: rgba(255, 255, 255, ${overlayPercent});`}
+          />
+        </div>
+      </div>
+    )
+  }
+
   <div class="reveal-content mb-12 text-center" style="animation-delay: 100ms;">
     <h2
-      class="text-4xl md:text-5xl font-heading font-black tracking-tight text-text mb-4"
+      class="text-4xl md:text-5xl font-heading font-black tracking-tight mb-4 text-text"
     >
       {title || "Carrière"}
     </h2>
-    <p class="text-lg text-text-muted font-body">
+    <p
+      class="text-lg font-body text-text-muted"
+    >
       {subtitle || "A propos de moi"}
     </p>
-    <div class="h-1 w-24 bg-primary mx-auto mt-6 rounded-full"></div>
+    <div
+      class="h-1 w-24 mx-auto mt-6 rounded-full bg-primary"
+    />
   </div>
 
   <div
-    class="glass rounded-3xl p-8 md:p-12 reveal-content max-w-4xl mx-auto"
+    class:list={[
+      "rounded-3xl p-8 md:p-12 reveal-content max-w-4xl mx-auto",
+      hasBackground
+        ? "bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-xl"
+        : "glass",
+    ]}
     style="animation-delay: 300ms;"
   >
     <!-- Render the HTML generated from Payload's Lexical Rich Text -->
     <div
       class="prose prose-slate prose-lg max-w-none
-                prose-headings:font-heading prose-headings:font-bold prose-headings:text-text
-                prose-p:font-body prose-p:text-text-muted prose-p:leading-relaxed
-                prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
+             prose-headings:font-heading prose-headings:font-bold prose-headings:text-text
+             prose-p:font-body prose-p:text-text-muted prose-p:leading-relaxed
+             prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
       set:html={richTextHtml}
     />
   </div>
 </section>
+
+<style>
+  /* Blurred fading edges on the background image container */
+  .career-bg-wrapper {
+    -webkit-mask-image: radial-gradient(
+      ellipse 90% 80% at center,
+      black 40%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 90% 80% at center,
+      black 40%,
+      transparent 100%
+    );
+  }
+</style>

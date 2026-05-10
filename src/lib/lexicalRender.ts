@@ -29,7 +29,34 @@ export function renderLexicalHtml(content: any): string {
         if (value && value.url) {
           const imgUrl = `${CMS_URL}${value.sizes?.card?.url || value.url}`;
           const alt = value.alt || '';
-          return `<div class="my-8 rounded-2xl overflow-hidden shadow-sm border border-slate-200"><img src="${imgUrl}" alt="${alt}" class="w-full h-auto object-cover" loading="lazy" /></div>`;
+          const fields = node.fields || {};
+          const position = fields.position || 'default';
+          const size = fields.size || 'large';
+          const caption = fields.caption || '';
+          
+          let containerClass = "my-8 rounded-2xl overflow-hidden shadow-sm border border-slate-200 clear-both";
+          let imgClass = "w-full h-auto object-cover";
+          
+          if (position === 'left') {
+            containerClass = "my-4 mr-6 lg:mr-8 mb-6 float-left rounded-2xl overflow-hidden shadow-sm border border-slate-200";
+            if (size === 'small') containerClass += " w-1/3";
+            else if (size === 'medium') containerClass += " w-1/2";
+            else containerClass += " w-full";
+          } else if (position === 'right') {
+            containerClass = "my-4 ml-6 lg:ml-8 mb-6 float-right rounded-2xl overflow-hidden shadow-sm border border-slate-200";
+            if (size === 'small') containerClass += " w-1/3";
+            else if (size === 'medium') containerClass += " w-1/2";
+            else containerClass += " w-full";
+          } else {
+             if (size === 'small') containerClass += " max-w-sm mx-auto";
+             else if (size === 'medium') containerClass += " max-w-2xl mx-auto";
+             else containerClass += " w-full";
+          }
+          
+          const imgHtml = `<img src="${imgUrl}" alt="${alt}" class="${imgClass}" loading="lazy" />`;
+          const captionHtml = caption ? `<figcaption class="text-sm text-center text-text-muted p-3 bg-slate-50 border-t border-slate-200">${caption}</figcaption>` : '';
+          
+          return `<figure class="${containerClass}">${imgHtml}${captionHtml}</figure>`;
         }
       }
 

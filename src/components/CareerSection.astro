@@ -5,6 +5,7 @@ interface Props {
   richTextHtml: string;
   backgroundImage?: string | null;
   enableParallax?: boolean;
+  parallaxRate?: number;
   overlayOpacity?: number;
 }
 
@@ -14,6 +15,7 @@ const {
   richTextHtml,
   backgroundImage,
   enableParallax = false,
+  parallaxRate = 20,
   overlayOpacity = 60,
 } = Astro.props;
 
@@ -34,11 +36,9 @@ const overlayPercent = Math.min(Math.max(overlayOpacity, 0), 100) / 100;
       <div class="absolute inset-0 -z-10 flex items-center justify-center" aria-hidden="true">
         <div class="career-bg-wrapper relative w-full h-full mx-4 md:mx-12 lg:mx-20 my-8 rounded-3xl overflow-hidden">
           <div
-            class:list={[
-              "absolute inset-0 bg-cover bg-center bg-no-repeat",
-              { "bg-fixed": enableParallax },
-            ]}
+            class="career-bg-layer absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
             style={`background-image: url('${backgroundImage}');`}
+            data-parallax={enableParallax ? String(parallaxRate) : undefined}
           />
           {/* White overlay for text readability */}
           <div
@@ -85,6 +85,65 @@ const overlayPercent = Math.min(Math.max(overlayOpacity, 0), 100) / 100;
     />
   </div>
 </section>
+
+<script>
+  function setupParallax() {
+    const bgLayers = document.querySelectorAll('.career-bg-layer[data-parallax]');
+    if (!bgLayers.length) return;
+
+    let ticking = false;
+    
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          bgLayers.forEach((layer) => {
+            const section = layer.closest('section');
+            if (!section) return;
+            
+            const rateAttr = layer.getAttribute('data-parallax');
+            if (!rateAttr) return; // Skip if parallax disabled
+            
+            // Rate logic: higher number = faster translation relative to scroll
+            const rate = parseFloat(rateAttr) / 100;
+            // Calculate safe bounds to prevent seeing the edge of the image
+            // We scale the image based on the parallax rate.
+            // 0% rate = scale 1.0. 100% rate = scale 1.5.
+            const scale = 1 + (rate * 0.5);
+            const rect = section.getBoundingClientRect();
+            
+            // The maximum we can translate up or down without showing the edge
+            // is half of the overflow amount created by the scale.
+            const maxTranslate = rect.height * ((scale - 1) / 2);
+            
+            // Calculate progress of the section across the viewport (0 to 1)
+            // 0 = just entered from bottom, 1 = just exited from top
+            const windowHeight = window.innerHeight;
+            const totalTravel = windowHeight + rect.height;
+            let progress = (windowHeight - rect.top) / totalTravel;
+            
+            // Clamp progress
+            progress = Math.max(0, Math.min(1, progress));
+            
+            // Map progress to translation: +maxTranslate (bottom) to -maxTranslate (top)
+            const translateY = maxTranslate - (progress * maxTranslate * 2);
+            
+            (layer as HTMLElement).style.transform = `translateY(${translateY}px) scale(${scale})`;
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    // Initialize position and start listening
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Run on page load and astro page transitions
+  document.addEventListener("DOMContentLoaded", setupParallax);
+  document.addEventListener("astro:page-load", setupParallax);
+</script>
 
 <style>
   /* Blurred fading edges on the background image container */

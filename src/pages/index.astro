@@ -65,6 +65,7 @@ const seoImage = homePage?.meta?.image?.url
         ? `${CMS_URL}${aboutPage.backgroundImage.sizes?.hero?.url || aboutPage.backgroundImage.url}`
         : null}
       enableParallax={aboutPage?.enableParallax || false}
+      parallaxRate={aboutPage?.parallaxRate ?? 20}
       overlayOpacity={aboutPage?.backgroundOverlayOpacity ?? 60}
     />
 

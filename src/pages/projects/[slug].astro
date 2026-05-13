@@ -3,7 +3,12 @@ import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { fetchProjects, fetchProject, fetchHomePage, CMS_URL } from "../../lib/api";
+import {
+  fetchProjects,
+  fetchProject,
+  fetchHomePage,
+  CMS_URL,
+} from "../../lib/api";
 import { renderLexicalHtml } from "../../lib/lexicalRender";
 
 export async function getStaticPaths() {
@@ -24,9 +29,11 @@ if (!project) {
 const htmlContent = renderLexicalHtml(project.content);
 ---
 
-<Layout 
+<Layout
   title={`${project.title} - Portfolio`}
-  backgroundImage={homePage?.siteBackgroundImage?.url ? `${CMS_URL}${homePage.siteBackgroundImage.sizes?.hero?.url || homePage.siteBackgroundImage.url}` : null}
+  backgroundImage={homePage?.siteBackgroundImage?.url
+    ? `${CMS_URL}${homePage.siteBackgroundImage.sizes?.hero?.url || homePage.siteBackgroundImage.url}`
+    : null}
   enableParallax={homePage?.siteEnableParallax || false}
   parallaxRate={homePage?.siteParallaxRate ?? 20}
   overlayOpacity={homePage?.siteBackgroundOverlayOpacity ?? 80}
@@ -75,9 +82,8 @@ const htmlContent = renderLexicalHtml(project.content);
           target="_blank"
           class="px-6 py-3 rounded-full glass hover:bg-slate-100 text-text font-medium transition-all hover:scale-105 active:scale-95 shadow-sm"
         >
-          Source Code
+          Github
         </a>
-        )}
       </div>
     </div>
 
@@ -88,7 +94,7 @@ const htmlContent = renderLexicalHtml(project.content);
             src={`${CMS_URL}${project.featuredImage.url}`}
             alt={project.featuredImage.alt || project.title}
             loading="eager"
-            class={`w-full h-full ${project.imageDisplayMode === 'contain' ? 'object-contain bg-surface/50 p-8' : 'object-cover'}`}
+            class={`w-full h-full ${project.imageDisplayMode === "contain" ? "object-contain bg-surface/50 p-8" : "object-cover"}`}
           />
         </div>
       )

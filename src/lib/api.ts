@@ -27,7 +27,7 @@ export async function fetchProject(slug: string) {
 
 export async function fetchProfile() {
   try {
-    const res = await fetch(`${API_URL}/globals/profile?depth=0`);
+    const res = await fetch(`${API_URL}/globals/profile?depth=1`);
     if (!res.ok) return null;
     const data = await res.json();
     return data;

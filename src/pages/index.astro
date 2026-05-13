@@ -59,6 +59,7 @@ const seoImage = homePage?.meta?.image?.url
         ? `${CMS_URL}${homePage.profilePicture.sizes?.hero?.url || homePage.profilePicture.url}`
         : null}
       profile={profile}
+      cvUrl={profile?.cvFile?.url ? `${CMS_URL}${profile.cvFile.url}` : null}
     />
 
     <!-- 2. Projects Section -->

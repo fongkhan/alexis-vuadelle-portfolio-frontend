@@ -6,8 +6,9 @@ interface Props {
   bio: string;
   profilePicture?: string | null;
   profile?: any;
+  cvUrl?: string | null;
 }
-const { headline, bio, profilePicture, profile } = Astro.props;
+const { headline, bio, profilePicture, profile, cvUrl } = Astro.props;
 ---
 
 <section
@@ -25,7 +26,7 @@ const { headline, bio, profilePicture, profile } = Astro.props;
         class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(139,92,246,0.8)]"
       ></span>
       <span class="text-sm font-medium text-text uppercase tracking-widest"
-        >{"Data Engineer - Développeur Full Stack"}</span
+        >{"Disponible pour des opportunités de freelance"}</span
       >
     </div>
 
@@ -42,7 +43,7 @@ const { headline, bio, profilePicture, profile } = Astro.props;
     </p>
 
     <div
-      class="mt-4 flex flex-col sm:flex-row justify-center md:justify-start gap-4"
+      class="mt-4 flex flex-col sm:flex-row flex-wrap justify-center md:justify-start gap-4"
     >
       <a
         href="#projects"
@@ -56,6 +57,32 @@ const { headline, bio, profilePicture, profile } = Astro.props;
       >
         À propos de moi
       </a>
+      {
+        cvUrl && (
+          <a
+            href={cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-6 py-4 rounded-full font-body font-medium transition-all hover:scale-105 active:scale-95 text-center text-base bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_20px_rgba(139,92,246,0.2)] inline-flex items-center justify-center gap-2"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+              />
+            </svg>
+            Télécharger mon CV
+          </a>
+        )
+      }
     </div>
 
     <div class="mt-6 flex items-center justify-center md:justify-start gap-6">
